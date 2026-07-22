@@ -1,5 +1,5 @@
 {
-  "total_nodes": 1,
+  "total_nodes": 4,
   "nodes": [
     {
       "node_id": "N1",
@@ -9,56 +9,57 @@
           "tag": "R-1",
           "type": "continous",
           "subtype": "CSTR",
-          "description": "1000 gal polymerization reactor"
+          "description": "1000 gal polymerization reactor",
+          "instrumentation": []
         },
         {
           "tag": "V-2",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "monomer inlet valve"
+          "description": "monomer inlet valve",
+          "instrumentation": []
         },
         {
           "tag": "V-4",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "steam inlet valeve"
+          "description": "steam inlet valeve",
+          "instrumentation": []
         },
         {
           "tag": "V-5",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "cooling water outlet valve"
+          "description": "cooling water outlet valve",
+          "instrumentation": []
         },
         {
           "tag": "V-6",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "cooling water inlet valve"
+          "description": "cooling water inlet valve",
+          "instrumentation": []
         },
         {
           "tag": "V-7",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "steam trap"
+          "description": "steam trap",
+          "instrumentation": []
         },
         {
           "tag": "V-8",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "reactor product drain"
+          "description": "reactor product drain",
+          "instrumentation": []
         },
         {
           "tag": "V-3",
           "type": "control valve",
           "subtype": "check valve",
-          "description": "nitrogen supply"
-        }
-      ],
-      "instrumentation": [
-        {
-          "tag": "PC",
-          "type": "pressure_control",
-          "associated_parameter": "pressure"
+          "description": "nitrogen supply",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -69,7 +70,8 @@
           "fluid": "monomer",
           "state": "liquid",
           "from_node": "monomer_feed",
-          "to_node": "N1"
+          "to_node": "N1",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -78,7 +80,8 @@
           "fluid": "steam",
           "state": "vapor",
           "from_node": "steam_header",
-          "to_node": "N1"
+          "to_node": "N1",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -87,7 +90,8 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "cooling_tower",
-          "to_node": "N1"
+          "to_node": "N1",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -96,7 +100,8 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "N1",
-          "to_node": "cooling_tower"
+          "to_node": "cooling_tower",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -105,7 +110,8 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "N1",
-          "to_node": "steam_trap"
+          "to_node": "steam_trap",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -114,7 +120,14 @@
           "fluid": "nitrogen",
           "state": "gas",
           "from_node": "nitrogen_supply",
-          "to_node": "N1"
+          "to_node": "N1",
+          "instrumentation": [
+            {
+              "tag": "PC",
+              "type": "pressure_control",
+              "associated_parameter": "pressure"
+            }
+          ]
         },
         {
           "type": "process_stream",
@@ -123,7 +136,8 @@
           "fluid": "polymer",
           "state": "liquid",
           "from_node": "N1",
-          "to_node": "N2"
+          "to_node": "N2",
+          "instrumentation": []
         },
         {
           "type": "process_stream",
@@ -132,7 +146,8 @@
           "fluid": "monomer_vapor",
           "state": "vapor",
           "from_node": "N1",
-          "to_node": "N3"
+          "to_node": "N3",
+          "instrumentation": []
         }
       ],
       "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: reactor is a major equipment/hazard concentration point. HEAT EXCHANGER SHELL/TUBE RULE: internal coil is a utility (steam/cooling water) line folded into the reactor node as secondary streams. STREAM OWNERSHIP RULE: reactor owns its external inlets and internal outlet streams."
@@ -145,22 +160,24 @@
           "tag": "P-1",
           "type": "pump",
           "subtype": "positive_displacement",
-          "description": "Gear pump, max 100 psig, 100 gpm at 50 psig"
+          "description": "Gear pump, max 100 psig, 100 gpm at 50 psig",
+          "instrumentation": []
         },
         {
           "tag": "V-1",
           "type": "control valve",
           "subtype": "hand_operated",
-          "description": "base inlet valve"
+          "description": "base inlet valve",
+          "instrumentation": []
         },
         {
           "tag": "V-9",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "product discharge valve"
+          "description": "product discharge valve",
+          "instrumentation": []
         }
       ],
-      "instrumentation": [],
       "connections": [
         {
           "type": "process_stream",
@@ -169,7 +186,8 @@
           "fluid": "base",
           "state": "liquid",
           "from_node": "base_supply",
-          "to_node": "N2"
+          "to_node": "N2",
+          "instrumentation": []
         },
         {
           "type": "process_stream",
@@ -178,7 +196,8 @@
           "fluid": "polymer_product",
           "state": "liquid",
           "from_node": "N2",
-          "to_node": "product_storage"
+          "to_node": "product_storage",
+          "instrumentation": []
         }
       ],
       "node_boundary_rationale": "PUMP RULE: P-1 is a gear (positive displacement) pump and must be its own separate node due to deadhead overpressure hazard. STREAM OWNERSHIP RULE: base inlet from reactor drain (V-8) was captured as N1 outlet; pump owns external base inlet and product outlet."
@@ -191,28 +210,31 @@
           "tag": "E-1",
           "type": "heat_exchanger",
           "subtype": "condenser",
-          "description": "overhead condenser"
+          "description": "overhead condenser",
+          "instrumentation": []
         },
         {
           "tag": "V-11",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "cooling water outlet"
+          "description": "cooling water outlet",
+          "instrumentation": []
         },
         {
           "tag": "V-10",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "cooling water inlet"
+          "description": "cooling water inlet",
+          "instrumentation": []
         },
         {
           "tag": "V-12",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "condensate outlet to drum"
+          "description": "condensate outlet to drum",
+          "instrumentation": []
         }
       ],
-      "instrumentation": [],
       "connections": [
         {
           "type": "utility_stream",
@@ -221,7 +243,8 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "cooling_tower",
-          "to_node": "N3"
+          "to_node": "N3",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -230,7 +253,8 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "N3",
-          "to_node": "cooling_tower"
+          "to_node": "cooling_tower",
+          "instrumentation": []
         },
         {
           "type": "process_stream",
@@ -239,7 +263,8 @@
           "fluid": "condensed_monomer",
           "state": "mixed",
           "from_node": "N3",
-          "to_node": "N4"
+          "to_node": "N4",
+          "instrumentation": []
         }
       ],
       "node_boundary_rationale": "CONDENSER RULE: E-1 is a condenser and is always a separate node from its associated equipment due to phase-change hazard. HEAT EXCHANGER SHELL/TUBE RULE: cooling water side folded in as utility. STREAM OWNERSHIP RULE: inlet vapor was captured as N1 outlet."
@@ -252,40 +277,51 @@
           "tag": "D-1",
           "type": "vessel",
           "subtype": "reflux",
-          "description": "100 gal condensate drum, max 50 psig, under vacuum"
+          "description": "100 gal condensate drum, max 50 psig, under vacuum",
+          "instrumentation": [
+            {
+              "tag": "LC",
+              "type": "level_control",
+              "associated_parameter": "level"
+            }
+          ]
         },
         {
           "tag": "P-2",
           "type": "pump",
           "subtype": "centrifugal",
-          "description": "Centrifugal transfer pump, max 50 psig, 20 gpm at 50 psig"
+          "description": "Centrifugal transfer pump, max 50 psig, 20 gpm at 50 psig",
+          "instrumentation": [
+            {
+              "tag": "LC",
+              "type": "level_control",
+              "associated_parameter": "level"
+            }
+          ]
         },
         {
           "tag": "V-15",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "Vacuum control valve"
+          "description": "Vacuum control valve",
+          "instrumentation": []
         },
         {
           "tag": "V-13",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "pump suction valve"
+          "description": "pump suction valve",
+          "instrumentation": []
         },
         {
           "tag": "V-14",
           "type": "valve",
           "subtype": "hand_operated",
-          "description": "Pump discharge valve"
+          "description": "Pump discharge valve",
+          "instrumentation": []
         }
       ],
-      "instrumentation": [
-        {
-          "tag": "LC",
-          "type": "level_control",
-          "associated_parameter": "level"
-        }
-      ],
+
       "connections": [
         {
           "type": "utility_stream",
@@ -294,7 +330,8 @@
           "fluid": "vacuum",
           "state": "gas",
           "from_node": "N4",
-          "to_node": "vacuum_system"
+          "to_node": "vacuum_system",
+          "instrumentation": []
         },
         {
           "type": "process_stream",
@@ -303,7 +340,8 @@
           "fluid": "condensate",
           "state": "liquid",
           "from_node": "N4",
-          "to_node": "external_destination"
+          "to_node": "external_destination",
+          "instrumentation": []
         }
       ],
       "node_boundary_rationale": "CONDENSATE DRUM RULE: D-1 is a condensate drum, separate node from condenser E-1; and because it is immediately followed by centrifugal pump P-2 with no intervening equipment, the pump is kept in the same node per the PUMP RULE centrifugal merge allowance. STREAM OWNERSHIP RULE: condensate inlet was captured as N3 outlet."
