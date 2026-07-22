@@ -2,7 +2,7 @@
   "nodes": [
     {
       "node_id": "N1",
-      "node_name": "E-004 High Temp Shift Feed Cooler",
+      "node_name": "Temp Shift Feed Cooler",
       "equipment": [
         {
           "tag": "E-004",
@@ -16,10 +16,10 @@
         {
           "type": "process_stream",
           "stream_role": "inlet_external",
-          "stream_name": "R-002 effluent feed",
+          "stream_name": "R-002 feed",
           "fluid": "process gas",
           "state": "gas",
-          "from_node": "external_R-002",
+          "from_node": "external",
           "to_node": "N1",
           "instrumentation": []
         },
@@ -453,17 +453,11 @@
           ]
         },
         {
-          "tag": "P-001A",
+          "tag": null,
           "type": "pump",
           "subtype": "centrifugal",
           "description": "C-001 Bottoms Pump",
-          "instrumentation": [
-            {
-              "tag": "PT-301",
-              "type": "pressure_transmitter",
-              "associated_parameter": "pressure"
-            }
-          ]
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -490,7 +484,7 @@
           "fluid": "CO2 free process gas",
           "state": "gas",
           "from_node": "N11",
-          "to_node": "N15",
+          "to_node": "external_E-017",
           "instrumentation": [
             {
               "tag": "FCV-202",
@@ -516,11 +510,6 @@
               "tag": "QC-216",
               "type": "composition_controller",
               "associated_parameter": "composition"
-            },
-            {
-              "tag": "AIT-999",
-              "type": "nuclear_density_meter",
-              "associated_parameter": "radiation_count"
             }
           ]
         }
@@ -640,22 +629,6 @@
               "associated_parameter": "flow"
             }
           ]
-        },
-        {
-          "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "reboiler vapor return",
-          "fluid": "steam / solvent vapor",
-          "state": "gas",
-          "from_node": "N13",
-          "to_node": "N12",
-          "instrumentation": [
-            {
-              "tag": "PT-401",
-              "type": "pressure_transmitter",
-              "associated_parameter": "pressure"
-            }
-          ]
         }
       ],
       "node_boundary_rationale": "REBOILER RULE"
@@ -695,54 +668,6 @@
         }
       ],
       "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
-    },
-    {
-      "node_id": "N15",
-      "node_name": "V-002 Overhead Reflux Accumulator",
-      "equipment": [
-        {
-          "tag": "V-002",
-          "type": "vessel",
-          "subtype": "accumulator",
-          "description": "Syngas Knockout Accumulator",
-          "instrumentation": [
-            {
-              "tag": "LT-302",
-              "type": "level_transmitter",
-              "associated_parameter": "level"
-            }
-          ]
-        }
-      ],
-      "connections": [
-        {
-          "type": "process_stream",
-          "stream_role": "outlet_external",
-          "stream_name": "gas to E-017",
-          "fluid": "CO2 free process gas",
-          "state": "gas",
-          "from_node": "N15",
-          "to_node": "external_E-017",
-          "instrumentation": []
-        },
-        {
-          "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "condensate recycle to absorber top",
-          "fluid": "water condensate",
-          "state": "liquid",
-          "from_node": "N15",
-          "to_node": "N11",
-          "instrumentation": [
-            {
-              "tag": "FCV-302",
-              "type": "flow_control_valve",
-              "associated_parameter": "flow"
-            }
-          ]
-        }
-      ],
-      "node_boundary_rationale": "CONDENSATE DRUM RULE"
     }
   ],
   "total_nodes": 14

@@ -72,6 +72,11 @@
               "tag": "FT-109",
               "type": "flow_transmitter",
               "associated_parameter": "flow"
+            },
+            {
+              "tag": "LSV-101",
+              "type": "level_safety_valve",
+              "associated_parameter": "level"
             }
           ]
         }
@@ -93,12 +98,12 @@
       "connections": [
         {
           "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "heated_process_air",
+          "stream_role": "inlet_internal",
+          "stream_name": "compressed_air",
           "fluid": "air",
           "state": "gas",
-          "from_node": "N2",
-          "to_node": "N4",
+          "from_node": "N1",
+          "to_node": "N2",
           "instrumentation": []
         }
       ],
@@ -189,7 +194,7 @@
           "stream_role": "utility",
           "stream_name": "burner_fuel",
           "fluid": "fuel_gas",
-          "state": "gas",
+          "state": "liquid",
           "from_node": "external",
           "to_node": "N3",
           "instrumentation": [
@@ -243,12 +248,12 @@
         },
         {
           "type": "process_stream",
-          "stream_role": "outlet_internal",
+          "stream_role": "inlet_internal",
           "stream_name": "primary_reformer_effluent",
           "fluid": "syngas",
           "state": "gas",
-          "from_node": "N3",
-          "to_node": "N4",
+          "from_node": "N4",
+          "to_node": "N3",
           "instrumentation": [
             {
               "tag": "TT-106",
@@ -303,7 +308,7 @@
             {
               "tag": "LT-121",
               "type": "level_transmitter",
-              "associated_parameter": "level"
+              "associated_parameter": "temperature"
             },
             {
               "tag": "LIC-120",

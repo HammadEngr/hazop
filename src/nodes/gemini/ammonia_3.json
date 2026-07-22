@@ -132,7 +132,7 @@
     },
     {
       "node_id": "N2",
-      "node_name": "Stage 1 Compression",
+      "node_name": "Stage 1-2 Compression (Merged)",
       "equipment": [
         {
           "tag": "K-002",
@@ -157,10 +157,42 @@
             {
               "tag": "LT-311",
               "type": "level_transmitter",
-              "associated_parameter": "level"
+              "associated_parameter": "pressure"
             },
             {
               "tag": "LIC-312",
+              "type": "level_indicator_control",
+              "associated_parameter": "level"
+            }
+          ]
+        },
+        {
+          "tag": "K-003",
+          "type": "compressor",
+          "subtype": "centrifugal",
+          "description": "Syngas Compressor Stage 2",
+          "instrumentation": []
+        },
+        {
+          "tag": "E-012",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Stage 2 Intercooler",
+          "instrumentation": []
+        },
+        {
+          "tag": "V-004",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "Stage 2 Interstage Separator",
+          "instrumentation": [
+            {
+              "tag": "LT-315",
+              "type": "level_transmitter",
+              "associated_parameter": "level"
+            },
+            {
+              "tag": "LIC-316",
               "type": "level_indicator_control",
               "associated_parameter": "level"
             }
@@ -222,7 +254,7 @@
           "fluid": "syngas",
           "state": "gas",
           "from_node": "N2",
-          "to_node": "N3",
+          "to_node": "N4",
           "instrumentation": [
             {
               "tag": "TIC-310",
@@ -246,48 +278,7 @@
               "associated_parameter": "flow"
             }
           ]
-        }
-      ],
-      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE, GENERAL EQUIPMENT BOUNDARY RULE"
-    },
-    {
-      "node_id": "N3",
-      "node_name": "Stage 2 Compression",
-      "equipment": [
-        {
-          "tag": "K-003",
-          "type": "compressor",
-          "subtype": "centrifugal",
-          "description": "Syngas Compressor Stage 2",
-          "instrumentation": []
         },
-        {
-          "tag": "E-012",
-          "type": "heat_exchanger",
-          "subtype": "cooler",
-          "description": "Stage 2 Intercooler",
-          "instrumentation": []
-        },
-        {
-          "tag": "V-004",
-          "type": "vessel",
-          "subtype": "knockout_drum",
-          "description": "Stage 2 Interstage Separator",
-          "instrumentation": [
-            {
-              "tag": "LT-315",
-              "type": "level_transmitter",
-              "associated_parameter": "level"
-            },
-            {
-              "tag": "LIC-316",
-              "type": "level_indicator_control",
-              "associated_parameter": "level"
-            }
-          ]
-        }
-      ],
-      "connections": [
         {
           "type": "utility_stream",
           "stream_role": "utility",
@@ -295,7 +286,7 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "utility_header",
-          "to_node": "N3",
+          "to_node": "N4",
           "instrumentation": [
             {
               "tag": "TT-313",
@@ -315,7 +306,7 @@
           "stream_name": "v004_vapor_to_k004",
           "fluid": "syngas",
           "state": "gas",
-          "from_node": "N3",
+          "from_node": "N2",
           "to_node": "N4",
           "instrumentation": [
             {
@@ -331,7 +322,7 @@
           "stream_name": "v004_condensate",
           "fluid": "water",
           "state": "liquid",
-          "from_node": "N3",
+          "from_node": "N2",
           "to_node": "waste_water_treatment_plant",
           "instrumentation": [
             {
@@ -466,7 +457,7 @@
             {
               "tag": "TIC-343",
               "type": "temperature_indicator_control",
-              "associated_parameter": "temperature"
+              "associated_parameter": "pressure"
             },
             {
               "tag": "TT-338",
@@ -493,7 +484,7 @@
           "instrumentation": []
         },
         {
-          "tag": "E-015",
+          "tag": "E-011",
           "type": "heat_exchanger",
           "subtype": "cooler",
           "description": "Trim Feed Cooler",
@@ -637,18 +628,7 @@
           "type": "vessel",
           "subtype": "unspecified",
           "description": "Ammonia High Pressure Separator",
-          "instrumentation": [
-            {
-              "tag": "LT-333",
-              "type": "level_transmitter",
-              "associated_parameter": "level"
-            },
-            {
-              "tag": "LIC-334",
-              "type": "level_indicator_control",
-              "associated_parameter": "level"
-            }
-          ]
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -730,7 +710,7 @@
           "stream_role": "outlet_internal",
           "stream_name": "v006_liquid_to_pump",
           "fluid": "ammonia",
-          "state": "liquid",
+          "state": "gas",
           "from_node": "N6",
           "to_node": "N8",
           "instrumentation": [
@@ -783,8 +763,8 @@
           "stream_name": "steam_k005",
           "fluid": "steam",
           "state": "vapor",
-          "from_node": "steam_header",
-          "to_node": "N7",
+          "from_node": "N7",
+          "to_node": "steam_header",
           "instrumentation": [
             {
               "tag": "PCV-302",
@@ -826,7 +806,7 @@
           "fluid": "purge_gas",
           "state": "gas",
           "from_node": "N7",
-          "to_node": "purge_system",
+          "to_node": "N9",
           "instrumentation": []
         }
       ],
@@ -884,5 +864,5 @@
       "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE, PUMP RULE, GENERAL EQUIPMENT BOUNDARY RULE"
     }
   ],
-  "total_nodes": 8
+  "total_nodes": 7
 }
