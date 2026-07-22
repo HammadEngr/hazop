@@ -1,0 +1,212 @@
+{
+  "heat_exchanger": {
+    "process_stream": {
+      "FLOW": {
+        "NO": {
+          "causes": [
+            "inlet valve fails closed or is inadvertently shut",
+            "line blockage/fouling on process side",
+            "upstream pump failure"
+          ],
+          "consequences": [
+            "loss of heat transfer / process upset downstream",
+            "possible overheating of exchanger if utility side continues (dry-out risk)"
+          ],
+          "required_safeguards": ["flow_indication", "low_flow_alarm"]
+        },
+        "MORE": {
+          "causes": [
+            "control valve fails open",
+            "upstream pressure surge",
+            "flow controller malfunction"
+          ],
+          "consequences": [
+            "reduced residence time / insufficient heat transfer",
+            "erosion of tubes at high velocity",
+            "downstream equipment overload"
+          ],
+          "required_safeguards": ["flow_control", "high_flow_alarm"]
+        },
+        "LESS": {
+          "causes": [
+            "partial blockage/fouling",
+            "control valve malfunction",
+            "pump degradation"
+          ],
+          "consequences": [
+            "reduced heat transfer efficiency",
+            "possible localized overheating on utility side"
+          ],
+          "required_safeguards": ["flow_indication", "low_flow_alarm"]
+        },
+        "REVERSE": {
+          "causes": [
+            "pump stoppage with downstream pressure higher than upstream",
+            "check valve failure or absence"
+          ],
+          "consequences": ["contamination of upstream system", "process upset"],
+          "required_safeguards": ["check_valve"]
+        }
+      },
+      "TEMPERATURE": {
+        "MORE": {
+          "causes": [
+            "utility (steam) control valve fails open",
+            "TC malfunction",
+            "excess utility supply temperature/pressure"
+          ],
+          "consequences": [
+            "product degradation",
+            "excessive vapor generation downstream",
+            "thermal stress on exchanger tubes"
+          ],
+          "required_safeguards": ["temperature_control", "high_temp_alarm"]
+        },
+        "LESS": {
+          "causes": [
+            "utility supply valve fails closed",
+            "TC malfunction",
+            "fouling reducing heat transfer"
+          ],
+          "consequences": [
+            "incomplete process duty (under-heating/under-cooling)",
+            "downstream process upset"
+          ],
+          "required_safeguards": ["temperature_control", "low_temp_alarm"]
+        }
+      },
+      "PRESSURE": {
+        "MORE": {
+          "causes": [
+            "downstream blockage",
+            "utility side pressure exceeds design (tube rupture risk)",
+            "thermal expansion of trapped liquid"
+          ],
+          "consequences": [
+            "tube or shell rupture",
+            "cross-contamination between shell and tube fluids",
+            "release of hazardous material"
+          ],
+          "required_safeguards": [
+            "pressure_relief_valve",
+            "high_pressure_alarm"
+          ]
+        },
+        "LESS": {
+          "causes": ["upstream supply loss", "leak in shell or tube"],
+          "consequences": [
+            "vacuum condition risk (equipment collapse if not rated for vacuum)",
+            "air/contaminant ingress"
+          ],
+          "required_safeguards": ["low_pressure_alarm", "vacuum_relief"]
+        }
+      }
+    },
+    "utility_stream": {
+      "FLOW": {
+        "NO": {
+          "causes": [
+            "utility supply valve fails closed",
+            "utility header pressure loss / supply interruption",
+            "blockage or fouling on utility side"
+          ],
+          "consequences": [
+            "loss of heating/cooling duty on process side",
+            "process side under-temperature (or over-temperature if utility was cooling)"
+          ],
+          "required_safeguards": ["temperature_indication", "low_temp_alarm"]
+        },
+        "MORE": {
+          "causes": [
+            "utility control valve fails open",
+            "utility header overpressure",
+            "control loop malfunction"
+          ],
+          "consequences": [
+            "process side over-temperature (if heating) or under-temperature (if cooling)",
+            "excess utility consumption / energy waste",
+            "thermal shock to exchanger tubes"
+          ],
+          "required_safeguards": ["temperature_control", "high_temp_alarm"]
+        },
+        "LESS": {
+          "causes": [
+            "partial blockage/fouling on utility side",
+            "utility header pressure drop",
+            "control valve malfunction"
+          ],
+          "consequences": [
+            "reduced heat transfer duty",
+            "process side drifting off target temperature"
+          ],
+          "required_safeguards": ["temperature_indication", "low_temp_alarm"]
+        },
+        "REVERSE": {
+          "causes": [
+            "utility supply pressure lost while process side backpressure remains",
+            "check valve failure or absence on utility line"
+          ],
+          "consequences": [
+            "process fluid backflow into utility header (cross-contamination of utility system)",
+            "corrosion/fouling of utility distribution system"
+          ],
+          "required_safeguards": ["check_valve"]
+        }
+      },
+      "TEMPERATURE": {
+        "MORE": {
+          "causes": [
+            "utility source temperature higher than design (e.g. steam header running hot)",
+            "loss of utility temperature control upstream"
+          ],
+          "consequences": [
+            "process side over-temperature",
+            "increased thermal stress on tubes",
+            "possible product degradation"
+          ],
+          "required_safeguards": ["temperature_indication", "high_temp_alarm"]
+        },
+        "LESS": {
+          "causes": [
+            "utility source temperature lower than design (e.g. cooling water colder than expected)",
+            "seasonal/ambient variation in utility supply"
+          ],
+          "consequences": [
+            "reduced heat transfer duty",
+            "process side under-temperature"
+          ],
+          "required_safeguards": ["temperature_indication", "low_temp_alarm"]
+        }
+      },
+      "PRESSURE": {
+        "MORE": {
+          "causes": [
+            "utility header overpressure",
+            "downstream utility-side blockage",
+            "pressure control valve failure upstream"
+          ],
+          "consequences": [
+            "tube/shell differential pressure exceeds design → rupture risk",
+            "cross-contamination between shell and tube fluids"
+          ],
+          "required_safeguards": [
+            "pressure_relief_valve",
+            "high_pressure_alarm"
+          ]
+        },
+        "LESS": {
+          "causes": [
+            "utility supply pressure loss",
+            "leak in utility-side piping or shell"
+          ],
+          "consequences": [
+            "loss of heat transfer driving force",
+            "possible vacuum condition on utility side (if condensing steam)",
+            "air ingress into utility system"
+          ],
+          "required_safeguards": ["low_pressure_alarm", "vacuum_relief"]
+        }
+      }
+    }
+  }
+}

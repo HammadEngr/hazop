@@ -1,0 +1,308 @@
+{
+  "nodes": [
+    {
+      "node_id": "N1",
+      "node_name": "Crude Methanol Feed PD Pump",
+      "equipment": [
+        {
+          "tag": "PD Pump",
+          "type": "pump",
+          "subtype": "positive_displacement",
+          "description": "Positive displacement pump feeding crude methanol to the preheater"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "crude_methanol_feed",
+          "fluid": "methanol",
+          "state": "liquid",
+          "from_node": "external_crude_methanol_source",
+          "to_node": "N1",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "pump_discharge_to_preheater",
+          "fluid": "methanol",
+          "state": "liquid",
+          "from_node": "N1",
+          "to_node": "N2",
+          "instrumentation": []
+        }
+      ],
+      "node_boundary_rationale": "PUMP RULE: PD pump must be its own separate node due to deadhead overpressure hazard."
+    },
+    {
+      "node_id": "N2",
+      "node_name": "Feed Preheater",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "preheater",
+          "description": "Steam-heated preheater warming crude methanol feed before the still"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TC",
+          "type": "temperature_control",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "heating_steam",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external_steam_header",
+          "to_node": "N2"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "preheated_feed_to_still",
+          "fluid": "methanol",
+          "state": "mixed",
+          "from_node": "N2",
+          "to_node": "N3"
+        }
+      ],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE: utility steam from shared header folded into process-side node as secondary stream. GENERAL EQUIPMENT BOUNDARY RULE: preheater is a major equipment item."
+    },
+    {
+      "node_id": "N3",
+      "node_name": "Distillation Still Column",
+      "equipment": [
+        {
+          "tag": "Still",
+          "type": "column",
+          "subtype": "distillation",
+          "description": "Distillation still column separating methanol overhead from tars bottoms"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "HIC",
+          "type": "hand_indicator_control",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "TIC",
+          "type": "temperature_indicator_control",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "nitrogen_purge_gas",
+          "fluid": "nitrogen",
+          "state": "gas",
+          "from_node": "external_nitrogen_source",
+          "to_node": "N3"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "overhead_vapor",
+          "fluid": "methanol",
+          "state": "vapor",
+          "from_node": "N3",
+          "to_node": "N4"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "sidedraw_to_stripper",
+          "fluid": "methanol",
+          "state": "liquid",
+          "from_node": "N3",
+          "to_node": "N6"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "bottoms_to_stripper",
+          "fluid": "tars",
+          "state": "liquid",
+          "from_node": "N3",
+          "to_node": "N6"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: column is a major equipment item and hazard concentration point. REBOILER/stripper handled separately."
+    },
+    {
+      "node_id": "N4",
+      "node_name": "Overhead Condenser",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "condenser",
+          "description": "Overhead condenser condensing still vapor before the drum"
+        }
+      ],
+      "instrumentation": [],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "external_cooling_water_header",
+          "to_node": "N4"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "vent_vapor",
+          "fluid": "nitrogen",
+          "state": "gas",
+          "from_node": "N4",
+          "to_node": "external_atmosphere_vent"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "condensate_to_drum",
+          "fluid": "methanol",
+          "state": "mixed",
+          "from_node": "N4",
+          "to_node": "N5"
+        }
+      ],
+      "node_boundary_rationale": "CONDENSER RULE: condenser is always a separate node from associated column due to phase-change hazard. HEAT EXCHANGER SHELL/TUBE RULE: cooling water utility folded in as secondary stream."
+    },
+    {
+      "node_id": "N5",
+      "node_name": "Reflux/Product Drum",
+      "equipment": [
+        {
+          "tag": "Drum",
+          "type": "vessel",
+          "subtype": "reflux_drum",
+          "description": "Overhead drum collecting condensed methanol product"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TIC",
+          "type": "temperature_indicator_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "LIC",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "methanol_product",
+          "fluid": "methanol",
+          "state": "liquid",
+          "from_node": "N5",
+          "to_node": "external_methanol_storage"
+        }
+      ],
+      "node_boundary_rationale": "CONDENSATE DRUM RULE: reflux/condensate drum is always a separate node from its associated condenser."
+    },
+    {
+      "node_id": "N6",
+      "node_name": "Stripper Column with Reboiler",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "column",
+          "subtype": "stripper",
+          "description": "Stripping column receiving still sidedraw/bottoms"
+        },
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "reboiler",
+          "description": "Steam reboiler associated with the stripper"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TIC",
+          "type": "temperature_indicator_control",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "reboiler_steam",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external_steam_header",
+          "to_node": "N6"
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "water",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "external_water_source",
+          "to_node": "N6"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "stripper_bottoms_to_pump",
+          "fluid": "tars",
+          "state": "liquid",
+          "from_node": "N6",
+          "to_node": "N7"
+        }
+      ],
+      "node_boundary_rationale": "REBOILER RULE: reboiler is safety-sensitive; here it is grouped with the stripper it directly serves as a phase-change unit. GENERAL EQUIPMENT BOUNDARY RULE: stripper is a major equipment item. Reboiler and stripper drawn as an integrated unit on the P&ID."
+    },
+    {
+      "node_id": "N7",
+      "node_name": "Tars Bottoms PD Pump",
+      "equipment": [
+        {
+          "tag": "PD Pump",
+          "type": "pump",
+          "subtype": "positive_displacement",
+          "description": "Positive displacement pump discharging tars bottoms product"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "PIC",
+          "type": "pressure_indicator_control",
+          "associated_parameter": "pressure"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "tars_product",
+          "fluid": "tars",
+          "state": "liquid",
+          "from_node": "N7",
+          "to_node": "external_tars_destination"
+        }
+      ],
+      "node_boundary_rationale": "PUMP RULE: PD pump must be its own separate node due to deadhead overpressure hazard."
+    }
+  ],
+  "total_nodes": 7
+}

@@ -1,0 +1,340 @@
+{
+  "nodes": [
+    {
+      "node_id": "N1",
+      "node_name": "Crude Methanol Feed Pump",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "pump",
+          "subtype": "positive_displacement",
+          "description": "Positive displacement feed pump for crude methanol",
+          "instrumentation": []
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "crude_methanol_feed",
+          "fluid": "crude methanol",
+          "state": "liquid",
+          "from_node": "external",
+          "to_node": "N1",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "crude_methanol_to_preheater",
+          "fluid": "crude methanol",
+          "state": "liquid",
+          "from_node": "N1",
+          "to_node": "N2",
+          "instrumentation": []
+        }
+      ],
+      "node_boundary_rationale": "PUMP RULE"
+    },
+    {
+      "node_id": "N2",
+      "node_name": "Feed Preheater",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "preheater",
+          "description": "Feed preheater using steam to warm the crude methanol feed",
+          "instrumentation": []
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "steam_inlet",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external",
+          "to_node": "N2",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "steam_condensate_outlet",
+          "fluid": "steam condensate",
+          "state": "liquid",
+          "from_node": "N2",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "preheated_feed",
+          "fluid": "crude methanol",
+          "state": "liquid",
+          "from_node": "N2",
+          "to_node": "N3",
+          "instrumentation": [
+            {
+              "tag": "TC",
+              "type": "temperature_control",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
+    },
+    {
+      "node_id": "N3",
+      "node_name": "Distillation Column (Still)",
+      "equipment": [
+        {
+          "tag": "Still",
+          "type": "column",
+          "subtype": "unspecified",
+          "description": "Distillation column (Still)",
+          "instrumentation": [
+            {
+              "tag": "TIC",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "nitrogen_purge_gas",
+          "fluid": "nitrogen",
+          "state": "gas",
+          "from_node": "external",
+          "to_node": "N3",
+          "instrumentation": [
+            {
+              "tag": "HIC",
+              "type": "hand_indicator_control",
+              "associated_parameter": "flow"
+            }
+          ]
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "overhead_vapor",
+          "fluid": "methanol",
+          "state": "vapor",
+          "from_node": "N3",
+          "to_node": "N4",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "column_bottoms_to_reboiler",
+          "fluid": "tars and methanol",
+          "state": "liquid",
+          "from_node": "N3",
+          "to_node": "N5",
+          "instrumentation": []
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N4",
+      "node_name": "Overhead Condenser",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "condenser",
+          "description": "Overhead condenser utilizing cooling water",
+          "instrumentation": []
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water_inlet",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "external",
+          "to_node": "N4",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water_outlet",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N4",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "vent_gas",
+          "fluid": "non-condensables",
+          "state": "gas",
+          "from_node": "N4",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "condensate_to_drum",
+          "fluid": "methanol",
+          "state": "liquid",
+          "from_node": "N4",
+          "to_node": "N6",
+          "instrumentation": [
+            {
+              "tag": "TIC",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "node_boundary_rationale": "CONDENSER RULE"
+    },
+    {
+      "node_id": "N5",
+      "node_name": "Bottoms Reboiler",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "reboiler",
+          "description": "Steam heated reboiler",
+          "instrumentation": []
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "steam_to_reboiler",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external",
+          "to_node": "N5",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "steam_condensate_from_reboiler",
+          "fluid": "steam condensate",
+          "state": "liquid",
+          "from_node": "N5",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "reboiler_vapor_reflux",
+          "fluid": "methanol vapor",
+          "state": "vapor",
+          "from_node": "N5",
+          "to_node": "N3",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "reboiler_liquid_to_pump",
+          "fluid": "tars",
+          "state": "liquid",
+          "from_node": "N5",
+          "to_node": "N7",
+          "instrumentation": []
+        }
+      ],
+      "node_boundary_rationale": "REBOILER RULE"
+    },
+    {
+      "node_id": "N6",
+      "node_name": "Methanol Drum and Pump",
+      "equipment": [
+        {
+          "tag": "Drum",
+          "type": "vessel",
+          "subtype": "reflux_drum",
+          "description": "Overhead distillate accumulator drum",
+          "instrumentation": [
+            {
+              "tag": "LIC",
+              "type": "level_indicator_control",
+              "associated_parameter": "level"
+            }
+          ]
+        },
+        {
+          "tag": null,
+          "type": "pump",
+          "subtype": "centrifugal",
+          "description": "Methanol product pump",
+          "instrumentation": []
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "methanol_product",
+          "fluid": "methanol",
+          "state": "liquid",
+          "from_node": "N6",
+          "to_node": "external",
+          "instrumentation": []
+        }
+      ],
+      "node_boundary_rationale": "CONDENSATE DRUM RULE"
+    },
+    {
+      "node_id": "N7",
+      "node_name": "Tars Bottoms Pump",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "pump",
+          "subtype": "positive_displacement",
+          "description": "Positive displacement pump for heavy tars bottoms discharge",
+          "instrumentation": []
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "tars_product",
+          "fluid": "tars",
+          "state": "liquid",
+          "from_node": "N7",
+          "to_node": "external",
+          "instrumentation": [
+            {
+              "tag": "PIC",
+              "type": "pressure_indicator_control",
+              "associated_parameter": "pressure"
+            }
+          ]
+        }
+      ],
+      "node_boundary_rationale": "PUMP RULE"
+    }
+  ],
+  "total_nodes": 7
+}

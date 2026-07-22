@@ -1,0 +1,977 @@
+{
+  "nodes": [
+    {
+      "node_id": "N1",
+      "node_name": "Pre-cooling Section",
+      "equipment": [
+        {
+          "tag": "E-009",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "First stage pre-cooler"
+        },
+        {
+          "tag": "E-010",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Second stage pre-cooler"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "syngas_feed",
+          "fluid": "syngas",
+          "state": "gas",
+          "from_node": "external_R-005",
+          "to_node": "N1",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "cooled_syngas",
+          "fluid": "syngas",
+          "state": "mixed",
+          "from_node": "N1",
+          "to_node": "N2",
+          "instrumentation": [
+            {
+              "tag": "TT-302",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-302",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-301",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TT-304",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-304",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-302",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N2",
+      "node_name": "First Stage KO Drum V-002",
+      "equipment": [
+        {
+          "tag": "V-002",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "First stage suction knockout drum"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "syngas_vapor_to_K-002",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N2",
+          "to_node": "N3",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "wastewater_blowdown",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N2",
+          "to_node": "external_wastewater_treatment",
+          "instrumentation": [
+            {
+              "tag": "LCV-301",
+              "type": "level_control_valve",
+              "associated_parameter": "level"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "LT-307",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LIC-308",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N3",
+      "node_name": "First Stage Compressor and Intercooler",
+      "equipment": [
+        {
+          "tag": "K-002",
+          "type": "compressor",
+          "subtype": "centrifugal",
+          "description": "First stage of Syngas Compressor"
+        },
+        {
+          "tag": "E-011",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "First stage intercooler"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "compressed_syngas_stage_1",
+          "fluid": "syngas",
+          "state": "mixed",
+          "from_node": "N3",
+          "to_node": "N4",
+          "instrumentation": [
+            {
+              "tag": "TT-309",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-310",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-303",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            }
+          ]
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "high_pressure_steam",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external_steam_header",
+          "to_node": "N3",
+          "instrumentation": [
+            {
+              "tag": "PT-305",
+              "type": "pressure_transmitter",
+              "associated_parameter": "pressure"
+            },
+            {
+              "tag": "PIC-306",
+              "type": "pressure_indicator_control",
+              "associated_parameter": "pressure"
+            },
+            {
+              "tag": "PCV-301",
+              "type": "pressure_control_valve",
+              "associated_parameter": "pressure"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N4",
+      "node_name": "Second Stage KO Drum V-003",
+      "equipment": [
+        {
+          "tag": "V-003",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "Second stage suction knockout drum"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "syngas_vapor_to_K-003",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N4",
+          "to_node": "N5",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "wastewater_blowdown",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N4",
+          "to_node": "external_wastewater_treatment",
+          "instrumentation": [
+            {
+              "tag": "LCV-302",
+              "type": "level_control_valve",
+              "associated_parameter": "level"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "LT-311",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LIC-312",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N5",
+      "node_name": "Second Stage Compressor and Intercooler",
+      "equipment": [
+        {
+          "tag": "K-003",
+          "type": "compressor",
+          "subtype": "centrifugal",
+          "description": "Second stage of Syngas Compressor"
+        },
+        {
+          "tag": "E-012",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Second stage intercooler"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "compressed_syngas_stage_2",
+          "fluid": "syngas",
+          "state": "mixed",
+          "from_node": "N5",
+          "to_node": "N6",
+          "instrumentation": [
+            {
+              "tag": "TT-313",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-314",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-304",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N6",
+      "node_name": "Third Stage KO Drum V-004",
+      "equipment": [
+        {
+          "tag": "V-004",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "Third stage suction knockout drum"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "syngas_vapor_to_K-004",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N6",
+          "to_node": "N7",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "wastewater_blowdown",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N6",
+          "to_node": "external_wastewater_treatment",
+          "instrumentation": [
+            {
+              "tag": "LCV-303",
+              "type": "level_control_valve",
+              "associated_parameter": "level"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "LT-315",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LIC-316",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N7",
+      "node_name": "Third Stage Compressor and Intercooler",
+      "equipment": [
+        {
+          "tag": "K-004",
+          "type": "compressor",
+          "subtype": "centrifugal",
+          "description": "Third stage of Syngas Compressor"
+        },
+        {
+          "tag": "E-013",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Third stage intercooler"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "compressed_syngas_stage_3",
+          "fluid": "syngas",
+          "state": "mixed",
+          "from_node": "N7",
+          "to_node": "N8",
+          "instrumentation": [
+            {
+              "tag": "PT-307",
+              "type": "pressure_transmitter",
+              "associated_parameter": "pressure"
+            },
+            {
+              "tag": "TT-317",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-318",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-305",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N8",
+      "node_name": "Fourth Stage KO Drum V-005",
+      "equipment": [
+        {
+          "tag": "V-005",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "Fourth stage discharge knockout drum"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "syngas_to_E107",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N8",
+          "to_node": "external_E107",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "wastewater_blowdown",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N8",
+          "to_node": "external_wastewater_treatment",
+          "instrumentation": [
+            {
+              "tag": "LCV-304",
+              "type": "level_control_valve",
+              "associated_parameter": "level"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "LT-319",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LIC-320",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N9",
+      "node_name": "E-014 Tube Side (Feed Preheater)",
+      "equipment": [
+        {
+          "tag": "E-014",
+          "type": "heat_exchanger",
+          "subtype": "unspecified",
+          "description": "Tube side of process preheater E-014"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "ammonia_synthesis_feed",
+          "fluid": "syngas_nitrogen_hydrogen",
+          "state": "gas",
+          "from_node": "external_C-001",
+          "to_node": "N9",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "preheated_feed_to_R-006",
+          "fluid": "syngas_nitrogen_hydrogen",
+          "state": "gas",
+          "from_node": "N9",
+          "to_node": "N10",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
+    },
+    {
+      "node_id": "N10",
+      "node_name": "Ammonia Converter R-006",
+      "equipment": [
+        {
+          "tag": "R-006",
+          "type": "reactor",
+          "subtype": "ammonia_converter",
+          "description": "Ammonia synthesis reactor converter"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "converter_effluent",
+          "fluid": "ammonia_syngas",
+          "state": "gas",
+          "from_node": "N10",
+          "to_node": "N11",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "TIC-341",
+          "type": "temperature_indicator_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-340",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TIC-342",
+          "type": "temperature_indicator_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-339",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TIC-343",
+          "type": "temperature_indicator_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-338",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TCV-306",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TCV-307",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TCV-308",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N11",
+      "node_name": "E-014 Shell Side (Converter Effluent Cooler)",
+      "equipment": [
+        {
+          "tag": "E-014",
+          "type": "heat_exchanger",
+          "subtype": "unspecified",
+          "description": "Shell side of process preheater E-014"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "partially_cooled_effluent",
+          "fluid": "ammonia_syngas",
+          "state": "gas",
+          "from_node": "N11",
+          "to_node": "N12",
+          "instrumentation": [
+            {
+              "tag": "TT-322",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
+    },
+    {
+      "node_id": "N12",
+      "node_name": "Water Cooler E-015",
+      "equipment": [
+        {
+          "tag": "E-015",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Water cooler E-015"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "make_up_gas_from_E-007",
+          "fluid": "syngas",
+          "state": "gas",
+          "from_node": "external_E-007",
+          "to_node": "N12",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "cooled_loop_gas_to_E-016",
+          "fluid": "ammonia_syngas",
+          "state": "gas",
+          "from_node": "N12",
+          "to_node": "N13",
+          "instrumentation": [
+            {
+              "tag": "TT-324",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-325",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-310",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TT-321",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-321",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-309",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N13",
+      "node_name": "E-016 Shell Side",
+      "equipment": [
+        {
+          "tag": "E-016",
+          "type": "heat_exchanger",
+          "subtype": "unspecified",
+          "description": "Shell side of process-to-process heat exchanger E-016"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "cooled_loop_gas_to_chilled_train",
+          "fluid": "ammonia_syngas",
+          "state": "gas",
+          "from_node": "N13",
+          "to_node": "N15",
+          "instrumentation": [
+            {
+              "tag": "TT-326",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
+    },
+    {
+      "node_id": "N14",
+      "node_name": "E-016 Tube Side",
+      "equipment": [
+        {
+          "tag": "E-016",
+          "type": "heat_exchanger",
+          "subtype": "unspecified",
+          "description": "Tube side of process-to-process heat exchanger E-016"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "process_fluid_from_E-005",
+          "fluid": "unspecified",
+          "state": "unspecified",
+          "from_node": "external_E-005",
+          "to_node": "N14",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "process_fluid_to_R-005",
+          "fluid": "unspecified",
+          "state": "unspecified",
+          "from_node": "N14",
+          "to_node": "external_R-005",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
+    },
+    {
+      "node_id": "N15",
+      "node_name": "Cooling Train E-017, E-018, E-019",
+      "equipment": [
+        {
+          "tag": "E-017",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Loop water cooler 1"
+        },
+        {
+          "tag": "E-018",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Loop water cooler 2"
+        },
+        {
+          "tag": "E-019",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Loop water cooler 3"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "chilled_loop_gas_to_separator",
+          "fluid": "ammonia_syngas",
+          "state": "mixed",
+          "from_node": "N15",
+          "to_node": "N16",
+          "instrumentation": [
+            {
+              "tag": "TT-328",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-327",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-312",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TT-330",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-329",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-313",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TT-332",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-331",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TCV-314",
+              "type": "temperature_control_valve",
+              "associated_parameter": "temperature"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N16",
+      "node_name": "Liquid Ammonia Separator V-006",
+      "equipment": [
+        {
+          "tag": "V-006",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "Ammonia loop separator knockout drum"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "recycle_vapor_to_K-005",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N16",
+          "to_node": "N18",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "liquid_ammonia_to_pump",
+          "fluid": "ammonia",
+          "state": "liquid",
+          "from_node": "N16",
+          "to_node": "N17",
+          "instrumentation": [
+            {
+              "tag": "LCV-305",
+              "type": "level_control_valve",
+              "associated_parameter": "level"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "LT-333",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LIC-334",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N17",
+      "node_name": "Ammonia Pump and Storage Tank T-001",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "pump",
+          "subtype": "centrifugal",
+          "description": "Liquid ammonia product transfer pump"
+        },
+        {
+          "tag": "T-001",
+          "type": "vessel",
+          "subtype": "storage_tank",
+          "description": "Liquid ammonia storage tank"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "liquid_ammonia_product",
+          "fluid": "ammonia",
+          "state": "liquid",
+          "from_node": "N17",
+          "to_node": "external_ammonia_storage_destination",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "PUMP RULE"
+    },
+    {
+      "node_id": "N18",
+      "node_name": "Recycle Compressor K-005",
+      "equipment": [
+        {
+          "tag": "K-005",
+          "type": "compressor",
+          "subtype": "centrifugal",
+          "description": "Recycle compressor K-005"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "recycled_syngas_to_E-015",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N18",
+          "to_node": "N12",
+          "instrumentation": [
+            {
+              "tag": "PT-335",
+              "type": "pressure_transmitter",
+              "associated_parameter": "pressure"
+            }
+          ]
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "purge_gas_stream",
+          "fluid": "syngas",
+          "state": "vapor",
+          "from_node": "N18",
+          "to_node": "external_purge_gas_destination",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "recycle_compressor_steam_drive",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external_steam_header",
+          "to_node": "N18",
+          "instrumentation": [
+            {
+              "tag": "PT-337",
+              "type": "pressure_transmitter",
+              "associated_parameter": "pressure"
+            },
+            {
+              "tag": "PIC-336",
+              "type": "pressure_indicator_control",
+              "associated_parameter": "pressure"
+            },
+            {
+              "tag": "PCV-302",
+              "type": "pressure_control_valve",
+              "associated_parameter": "pressure"
+            }
+          ]
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    }
+  ],
+  "total_nodes": 18
+}

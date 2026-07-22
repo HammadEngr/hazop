@@ -1,0 +1,694 @@
+{
+  "nodes": [
+    {
+      "node_id": "N1",
+      "node_name": "HT Shift Effluent Cooler E-004",
+      "equipment": [
+        {
+          "tag": "E-004",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Process gas cooler receiving feed from R-002; cooling water side (CWH/CWC) with TCV-201 temperature control"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TCV-201",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TC-202",
+          "type": "temperature_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-201",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "from_R-002",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "PG:1 From R-002",
+          "to_node": "N1"
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "CWH_header",
+          "to_node": "N1"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "cooled_gas_to_R-003",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N1",
+          "to_node": "N2"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: cooler is a major equipment item. HEAT EXCHANGER SHELL/TUBE RULE: cooling water utility side folded into process node as secondary stream. STREAM OWNERSHIP RULE: first node owns external inlet from R-002."
+    },
+    {
+      "node_id": "N2",
+      "node_name": "High Temp. Shift Converter R-003",
+      "equipment": [
+        {
+          "tag": "R-003",
+          "type": "vessel",
+          "subtype": "reactor",
+          "description": "High temperature shift converter, design 2605.3 kPa / 427C, with PSV overpressure protection"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "PSV",
+          "type": "pressure_safety_valve",
+          "associated_parameter": "pressure"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "shift_gas_to_E-005",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N2",
+          "to_node": "N3"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: reactor vessel is a hazard concentration point warranting its own node. STREAM OWNERSHIP RULE: inlet from E-004 already captured as N1 outlet."
+    },
+    {
+      "node_id": "N3",
+      "node_name": "Heat Exchanger E-005",
+      "equipment": [
+        {
+          "tag": "E-005",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Shell/tube heat exchanger, shell 16091 kPa/145.6C, tube 2432.9 kPa/427.2C; TCV-202 control with TT-203 temperature transmitter"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TCV-202",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TC-204",
+          "type": "temperature_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-203",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "process_gas_to_E-006",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N3",
+          "to_node": "N4"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: exchanger is a major equipment item. HEAT EXCHANGER SHELL/TUBE RULE: process side is the primary node with the associated utility/return handled as secondary."
+    },
+    {
+      "node_id": "N4",
+      "node_name": "Interstage Cooler E-006",
+      "equipment": [
+        {
+          "tag": "E-006",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Process gas cooler with cooling water (CWH/CWC), TCV-203 control, PSV overpressure protection"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TCV-203",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TC-206",
+          "type": "temperature_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-205",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "PSV",
+          "type": "pressure_safety_valve",
+          "associated_parameter": "pressure"
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "CWC_header",
+          "to_node": "N4"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "cooled_gas_to_R-004",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N4",
+          "to_node": "N5"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: cooler is a major equipment item. HEAT EXCHANGER SHELL/TUBE RULE: cooling water utility folded into process node."
+    },
+    {
+      "node_id": "N5",
+      "node_name": "Low Temp. Shift Converter R-004",
+      "equipment": [
+        {
+          "tag": "R-004",
+          "type": "vessel",
+          "subtype": "reactor",
+          "description": "Low temperature shift converter, design 2332.9 kPa / 220C"
+        }
+      ],
+      "instrumentation": [],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "shift_gas_to_E-007",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N5",
+          "to_node": "N6"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: reactor vessel is a hazard concentration point warranting its own node. STREAM OWNERSHIP RULE: inlet from E-006 already captured as N4 outlet."
+    },
+    {
+      "node_id": "N6",
+      "node_name": "Heat Exchanger E-007",
+      "equipment": [
+        {
+          "tag": "E-007",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Shell/tube heat exchanger, shell 16141 kPa/30C, tube 2160.5 kPa/220C; TCV-204 control with TT-207"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TCV-204",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TC-208",
+          "type": "temperature_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-207",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "process_gas_to_E-008",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N6",
+          "to_node": "N7"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: exchanger is a major equipment item. HEAT EXCHANGER SHELL/TUBE RULE: process side is the primary node."
+    },
+    {
+      "node_id": "N7",
+      "node_name": "Cooler E-008",
+      "equipment": [
+        {
+          "tag": "E-008",
+          "type": "heat_exchanger",
+          "subtype": "cooler",
+          "description": "Process gas cooler with cooling water (CWH/CWC), TCV-205 control with TT-209"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "TCV-205",
+          "type": "temperature_control_valve",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TC-210",
+          "type": "temperature_control",
+          "associated_parameter": "temperature"
+        },
+        {
+          "tag": "TT-209",
+          "type": "temperature_transmitter",
+          "associated_parameter": "temperature"
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "CWC_header",
+          "to_node": "N7"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "cooled_gas_to_V-001",
+          "fluid": "process_gas",
+          "state": "mixed",
+          "from_node": "N7",
+          "to_node": "N8"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: cooler is a major equipment item. HEAT EXCHANGER SHELL/TUBE RULE: cooling water utility folded into process node."
+    },
+    {
+      "node_id": "N8",
+      "node_name": "Separator V-001",
+      "equipment": [
+        {
+          "tag": "V-001",
+          "type": "vessel",
+          "subtype": "knockout_drum",
+          "description": "Gas-liquid separator with level control LCV-201; condensate to waste water treatment, gas overhead"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "LT-211",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LC-212",
+          "type": "level_control",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LCV-201",
+          "type": "level_control_valve",
+          "associated_parameter": "level"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "from_V-005",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "From V-005 PG:3",
+          "to_node": "N8"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "from_K-005",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "From K-005 PG:3",
+          "to_node": "N8"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "condensate_to_wwtp",
+          "fluid": "condensate",
+          "state": "liquid",
+          "from_node": "N8",
+          "to_node": "Waste Water Treatment Plant"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "gas_to_E-015",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N8",
+          "to_node": "PG:3 To E-015"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "gas_to_R-006",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N8",
+          "to_node": "PG:3 To R-006"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: separator vessel with phase separation is a hazard concentration point. STREAM OWNERSHIP RULE: owns external inlets from V-005/K-005 and external outlets."
+    },
+    {
+      "node_id": "N9",
+      "node_name": "Absorber Column C-001",
+      "equipment": [
+        {
+          "tag": "C-001",
+          "type": "column",
+          "subtype": "absorber",
+          "description": "Packed/trayed absorber column with FCV-201 overhead and FCV-202 solvent feed control; SPV overpressure protection"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "FCV-201",
+          "type": "flow_control_valve",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FIC-226",
+          "type": "flow_indicator_control",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FT-225",
+          "type": "flow_transmitter",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FCV-202",
+          "type": "flow_control_valve",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FIC-218",
+          "type": "flow_indicator_control",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FT-217",
+          "type": "flow_transmitter",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "QC-216",
+          "type": "quality_control",
+          "associated_parameter": "composition"
+        },
+        {
+          "tag": "QT-215",
+          "type": "quality_transmitter",
+          "associated_parameter": "composition"
+        },
+        {
+          "tag": "LT-213",
+          "type": "level_transmitter",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "LIC-214",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        },
+        {
+          "tag": "SPV",
+          "type": "safety_valve",
+          "associated_parameter": "pressure"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "treated_gas_to_E-017",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N9",
+          "to_node": "PG:3 To E-017"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "rich_solvent_to_pump",
+          "fluid": "solvent",
+          "state": "liquid",
+          "from_node": "N9",
+          "to_node": "N10"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: absorber column is a major equipment item and hazard concentration point. Bottoms liquid feeds the transfer pump downstream."
+    },
+    {
+      "node_id": "N10",
+      "node_name": "C-001 Bottoms Transfer Pump",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "pump",
+          "subtype": "centrifugal",
+          "description": "Pump transferring C-001 bottoms liquid via LCV-202 level control toward C-002"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "LCV-202",
+          "type": "level_control_valve",
+          "associated_parameter": "level"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "rich_solvent_to_C-002",
+          "fluid": "solvent",
+          "state": "liquid",
+          "from_node": "N10",
+          "to_node": "N11"
+        }
+      ],
+      "node_boundary_rationale": "PUMP RULE: pump symbol shown with no impeller/PD marking discernible; kept as separate node. Subtype assumed centrifugal from symbol; noted uncertainty."
+    },
+    {
+      "node_id": "N11",
+      "node_name": "Regenerator/Stripper Column C-002",
+      "equipment": [
+        {
+          "tag": "C-002",
+          "type": "column",
+          "subtype": "stripper",
+          "description": "Stripping/regeneration column with FCV-204 CO2 overhead control and PSV overpressure protection"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "FCV-204",
+          "type": "flow_control_valve",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "PIC-224",
+          "type": "pressure_indicator_control",
+          "associated_parameter": "pressure"
+        },
+        {
+          "tag": "FT-223",
+          "type": "flow_transmitter",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "PSV",
+          "type": "pressure_safety_valve",
+          "associated_parameter": "pressure"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "co2_overhead",
+          "fluid": "carbon_dioxide",
+          "state": "gas",
+          "from_node": "N11",
+          "to_node": "CO2"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "column_bottoms_to_reboiler",
+          "fluid": "solvent",
+          "state": "liquid",
+          "from_node": "N11",
+          "to_node": "N12"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: stripper column is a major equipment item and hazard concentration point. Reboiler is separated per REBOILER RULE."
+    },
+    {
+      "node_id": "N12",
+      "node_name": "C-002 Reboiler",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "heat_exchanger",
+          "subtype": "reboiler",
+          "description": "Reboiler with heat medium supply/return, FCV-203 control, providing stripping heat to C-002"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "FCV-203",
+          "type": "flow_control_valve",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FIC-220",
+          "type": "flow_indicator_control",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "FT-219",
+          "type": "flow_transmitter",
+          "associated_parameter": "flow"
+        },
+        {
+          "tag": "QC-221",
+          "type": "quality_control",
+          "associated_parameter": "composition"
+        },
+        {
+          "tag": "QT-222",
+          "type": "quality_transmitter",
+          "associated_parameter": "composition"
+        }
+      ],
+      "connections": [
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "heat_medium_supply",
+          "fluid": "heat_medium",
+          "state": "liquid",
+          "from_node": "Heat Medium Supply header",
+          "to_node": "N12"
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "heat_medium_return",
+          "fluid": "heat_medium",
+          "state": "liquid",
+          "from_node": "N12",
+          "to_node": "Heat Medium Return header"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "lean_solvent_return",
+          "fluid": "solvent",
+          "state": "mixed",
+          "from_node": "N12",
+          "to_node": "N13"
+        }
+      ],
+      "node_boundary_rationale": "REBOILER RULE: reboiler is always a separate node from its associated column. HEAT EXCHANGER SHELL/TUBE RULE: heat medium utility folded in as secondary streams."
+    },
+    {
+      "node_id": "N13",
+      "node_name": "Lean Solvent Circulation Pump",
+      "equipment": [
+        {
+          "tag": null,
+          "type": "pump",
+          "subtype": "centrifugal",
+          "description": "Bottoms circulation pump returning lean solvent from C-002 loop back to absorber C-001"
+        }
+      ],
+      "instrumentation": [],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "lean_solvent_to_C-001",
+          "fluid": "solvent",
+          "state": "liquid",
+          "from_node": "N13",
+          "to_node": "N9"
+        }
+      ],
+      "node_boundary_rationale": "PUMP RULE: pump kept as its own node. Subtype assumed centrifugal from symbol; noted uncertainty under GENERAL EQUIPMENT BOUNDARY RULE."
+    },
+    {
+      "node_id": "N14",
+      "node_name": "Reactor R-005 (Methanator)",
+      "equipment": [
+        {
+          "tag": "R-005",
+          "type": "vessel",
+          "subtype": "reactor",
+          "description": "Methanator, design 2053.7 kPa / 330C, fed from E-017, with PSV overpressure protection"
+        }
+      ],
+      "instrumentation": [
+        {
+          "tag": "PSV",
+          "type": "pressure_safety_valve",
+          "associated_parameter": "pressure"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "from_E-017",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "From E-017 PG:3",
+          "to_node": "N14"
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "product_to_E-010",
+          "fluid": "process_gas",
+          "state": "gas",
+          "from_node": "N14",
+          "to_node": "PG:3 To E-010"
+        }
+      ],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: methanator reactor vessel is a hazard concentration point. STREAM OWNERSHIP RULE: owns external inlet from E-017 and external outlet to E-010."
+    }
+  ],
+  "total_nodes": 14
+}

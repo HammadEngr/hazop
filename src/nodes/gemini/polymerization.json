@@ -1,0 +1,237 @@
+{
+  "nodes": [
+    {
+      "node_id": "N1",
+      "node_name": "Reactor System (R-1)",
+      "equipment": [
+        {
+          "tag": "R-1",
+          "type": "vessel",
+          "subtype": "reactor",
+          "description": "1000 Gal Polymerization Reactor"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "monomer_inlet",
+          "fluid": "monomer",
+          "state": "liquid",
+          "from_node": "external",
+          "to_node": "N1",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "nitrogen_inlet",
+          "fluid": "nitrogen",
+          "state": "gas",
+          "from_node": "external",
+          "to_node": "N1",
+          "instrumentation": [
+            {
+              "tag": "PC",
+              "type": "pressure_control",
+              "associated_parameter": "pressure"
+            }
+          ]
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "reactor_overhead_vapor",
+          "fluid": "vapor",
+          "state": "vapor",
+          "from_node": "N1",
+          "to_node": "N3",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "reactor_bottoms_product",
+          "fluid": "polymer",
+          "state": "liquid",
+          "from_node": "N1",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "steam_inlet",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external",
+          "to_node": "N1",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water_inlet",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "external",
+          "to_node": "N1",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water_outlet",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N1",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "steam_trap_discharge",
+          "fluid": "condensate",
+          "state": "liquid",
+          "from_node": "N1",
+          "to_node": "external",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+    },
+    {
+      "node_id": "N2",
+      "node_name": "Feed Pump (P-1)",
+      "equipment": [
+        {
+          "tag": "P-1",
+          "type": "pump",
+          "subtype": "positive_displacement",
+          "description": "Gear Pump"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "base_inlet",
+          "fluid": "base",
+          "state": "liquid",
+          "from_node": "external",
+          "to_node": "N2",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "base_discharge",
+          "fluid": "base",
+          "state": "liquid",
+          "from_node": "N2",
+          "to_node": "N1",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "PUMP RULE"
+    },
+    {
+      "node_id": "N3",
+      "node_name": "Condenser (E-1)",
+      "equipment": [
+        {
+          "tag": "E-1",
+          "type": "heat_exchanger",
+          "subtype": "condenser",
+          "description": "Condenser"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "condensate_outlet",
+          "fluid": "condensate",
+          "state": "liquid",
+          "from_node": "N3",
+          "to_node": "N4",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water_inlet",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "external",
+          "to_node": "N3",
+          "instrumentation": []
+        },
+        {
+          "type": "utility_stream",
+          "stream_role": "utility",
+          "stream_name": "cooling_water_outlet",
+          "fluid": "water",
+          "state": "liquid",
+          "from_node": "N3",
+          "to_node": "external",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [],
+      "node_boundary_rationale": "CONDENSER RULE"
+    },
+    {
+      "node_id": "N4",
+      "node_name": "Condensate Drum and Pump",
+      "equipment": [
+        {
+          "tag": "D-1",
+          "type": "vessel",
+          "subtype": "reflux_drum",
+          "description": "100 Gal Drum"
+        },
+        {
+          "tag": "P-2",
+          "type": "pump",
+          "subtype": "centrifugal",
+          "description": "Centrifugal Pump"
+        }
+      ],
+      "connections": [
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "vacuum_vent",
+          "fluid": "gas",
+          "state": "gas",
+          "from_node": "N4",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "condensate_discharge",
+          "fluid": "condensate",
+          "state": "liquid",
+          "from_node": "N4",
+          "to_node": "external",
+          "instrumentation": []
+        }
+      ],
+      "equipment_instrumentation": [
+        {
+          "tag": "LC",
+          "type": "level_indicator_control",
+          "associated_parameter": "level"
+        }
+      ],
+      "node_boundary_rationale": "CONDENSATE DRUM RULE"
+    }
+  ],
+  "total_nodes": 4
+}

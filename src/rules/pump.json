@@ -1,0 +1,143 @@
+{
+  "pump_centrifugal": {
+    "NO_flow": {
+      "causes": [
+        "pump trip/stopped (electrical fault, motor failure)",
+        "suction line blocked or valve closed",
+        "loss of suction (empty tank, low level)"
+      ],
+      "consequences": [
+        "loss of downstream process flow",
+        "if pump continues running with no flow: overheating of pump casing/seal damage"
+      ],
+      "required_safeguard_types": [
+        "flow_indication",
+        "low_flow_alarm",
+        "pump_trip_on_low_flow"
+      ]
+    },
+    "LESS_flow": {
+      "causes": [
+        "partial suction blockage",
+        "impeller wear/damage",
+        "cavitation (see cavitation entry)",
+        "discharge line partial blockage"
+      ],
+      "consequences": [
+        "reduced downstream process rate",
+        "reduced discharge pressure (natural coupling in centrifugal curve)"
+      ],
+      "required_safeguard_types": ["flow_indication", "low_flow_alarm"]
+    },
+    "MORE_flow": {
+      "causes": [
+        "downstream demand increase / control valve wide open",
+        "reduced downstream resistance"
+      ],
+      "consequences": [
+        "motor overload",
+        "increased erosion in downstream piping",
+        "reduced discharge pressure (per pump curve, not overpressure risk)"
+      ],
+      "required_safeguard_types": ["flow_control", "motor_overload_protection"]
+    },
+    "REVERSE_flow": {
+      "causes": [
+        "pump stopped with downstream pressure higher than pump shutoff head",
+        "check valve failure/absence"
+      ],
+      "consequences": [
+        "reverse rotation of pump (potential mechanical damage)",
+        "backflow contamination upstream"
+      ],
+      "required_safeguard_types": ["check_valve"]
+    },
+    "cavitation": {
+      "causes": [
+        "insufficient NPSH available (low suction pressure, high suction lift, high fluid temperature)",
+        "suction strainer blockage",
+        "vapor pressure of fluid approached at suction"
+      ],
+      "consequences": [
+        "impeller/casing erosion damage over time",
+        "reduced/erratic flow and pressure",
+        "vibration, potential seal failure"
+      ],
+      "required_safeguard_types": [
+        "suction_pressure_indication",
+        "npsh_margin_by_design"
+      ]
+    },
+    "MORE_pressure": {
+      "causes": [
+        "downstream blockage (note: centrifugal pumps are inherently limited by shutoff head — overpressure risk is bounded, not a primary hazard like PD pumps)"
+      ],
+      "consequences": [
+        "operation at shutoff head — overheating if prolonged, not typically a rupture hazard"
+      ],
+      "required_safeguard_types": ["discharge_pressure_indication"]
+    }
+  },
+
+  "pump_positive_displacement": {
+    "NO_flow": {
+      "causes": [
+        "pump trip/stopped",
+        "suction line blocked or valve closed",
+        "coupling/drive failure"
+      ],
+      "consequences": ["loss of downstream process flow"],
+      "required_safeguard_types": ["flow_indication", "low_flow_alarm"]
+    },
+    "LESS_flow": {
+      "causes": [
+        "internal slip/wear (worn gears, rotors, or diaphragm)",
+        "partial suction blockage"
+      ],
+      "consequences": [
+        "reduced downstream process rate",
+        "reduced metering accuracy (if used for dosing)"
+      ],
+      "required_safeguard_types": ["flow_indication", "low_flow_alarm"]
+    },
+    "MORE_pressure": {
+      "causes": [
+        "discharge valve closed or line blocked while pump continues running (deadhead condition)",
+        "downstream equipment blockage",
+        "relief valve failure/absence"
+      ],
+      "consequences": [
+        "SEVERE: piping/pump casing rupture — PD pumps generate unbounded pressure against a closed discharge, unlike centrifugal pumps",
+        "release of hazardous material",
+        "motor stall/overload"
+      ],
+      "required_safeguard_types": [
+        "pressure_relief_valve",
+        "high_pressure_alarm",
+        "pump_trip_on_high_pressure"
+      ]
+    },
+    "REVERSE_flow": {
+      "causes": [
+        "pump stopped, downstream pressure higher than upstream",
+        "check valve failure/absence"
+      ],
+      "consequences": [
+        "backflow contamination upstream",
+        "reverse mechanical loading on pump internals"
+      ],
+      "required_safeguard_types": ["check_valve"]
+    },
+    "LESS_pressure": {
+      "causes": [
+        "suction starvation",
+        "internal wear reducing volumetric efficiency"
+      ],
+      "consequences": [
+        "reduced downstream delivery pressure",
+        "possible cavitation-like damage (less common than centrifugal but possible)"
+      ],
+      "required_safeguard_types": ["discharge_pressure_indication"]
+    }
+  }
+}
