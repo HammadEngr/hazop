@@ -2,13 +2,14 @@
   "nodes": [
     {
       "node_id": "N1",
-      "node_name": "Air Compression System",
+      "node_name": "Air Compressor System",
       "equipment": [
         {
           "tag": "K-001",
           "type": "compressor",
           "subtype": "centrifugal",
-          "description": "Steam turbine-driven centrifugal air compressor providing process air"
+          "description": "Centrifugal process air compressor driven by a steam turbine",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -37,14 +38,14 @@
               "associated_parameter": "flow"
             },
             {
-              "tag": "FIC-102",
+              "tag": "FIC-105",
               "type": "flow_indicator_controller",
               "associated_parameter": "flow"
             },
             {
               "tag": "RS-102",
               "type": "ratio_station",
-              "associated_parameter": "flow"
+              "associated_parameter": "ratio"
             }
           ]
         },
@@ -65,85 +66,74 @@
           "fluid": "air",
           "state": "gas",
           "from_node": "N1",
-          "to_node": "N4",
+          "to_node": "N2",
           "instrumentation": [
             {
-              "tag": "FT-108",
+              "tag": "FT-109",
               "type": "flow_transmitter",
               "associated_parameter": "flow"
             }
           ]
         }
       ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+      "node_boundary_rationale": "PUMP RULE allows centrifugal pumps and compressors to be kept in a combined node or analyzed separately based on process scope. GENERAL EQUIPMENT BOUNDARY RULE is applied to establish the compressor package boundary."
     },
     {
       "node_id": "N2",
-      "node_name": "Steam Preheater (E-001)",
+      "node_name": "Air Preheater (E-003)",
       "equipment": [
         {
-          "tag": "E-001",
+          "tag": "E-003",
           "type": "heat_exchanger",
           "subtype": "preheater",
-          "description": "Convective preheat coil for steam feed in the Primary Reformer waste heat section"
+          "description": "Process air preheater coil utilizing waste heat from R-001 flue gas",
+          "instrumentation": []
         }
       ],
       "connections": [
         {
           "type": "process_stream",
-          "stream_role": "inlet_external",
-          "stream_name": "steam_feed",
-          "fluid": "steam",
-          "state": "vapor",
-          "from_node": "external",
-          "to_node": "N2",
+          "stream_role": "outlet_internal",
+          "stream_name": "heated_process_air",
+          "fluid": "air",
+          "state": "gas",
+          "from_node": "N2",
+          "to_node": "N4",
+          "instrumentation": []
+        }
+      ],
+      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE applies because the heating medium (flue gas) is an un-noded utility stream. The process-side stream is analyzed as its own node."
+    },
+    {
+      "node_id": "N3",
+      "node_name": "Primary Reformer System (R-001, E-001, E-002)",
+      "equipment": [
+        {
+          "tag": "R-001",
+          "type": "vessel",
+          "subtype": "reformer",
+          "description": "Primary reformer radiant section with catalyst tubes and combustion burners",
           "instrumentation": [
             {
-              "tag": "FCV-101",
-              "type": "flow_control_valve",
-              "associated_parameter": "flow"
-            },
-            {
-              "tag": "FT-101",
-              "type": "flow_transmitter",
-              "associated_parameter": "flow"
-            },
-            {
-              "tag": "FIC-101",
-              "type": "flow_indicator_controller",
-              "associated_parameter": "flow"
-            },
-            {
-              "tag": "RS-101",
-              "type": "ratio_station",
-              "associated_parameter": "flow"
+              "tag": "PSV",
+              "type": "pressure_safety_valve",
+              "associated_parameter": "pressure"
             }
           ]
         },
         {
-          "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "preheated_steam",
-          "fluid": "steam",
-          "state": "vapor",
-          "from_node": "N2",
-          "to_node": "N5",
-          "instrumentation": []
-        }
-      ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
-    },
-    {
-      "node_id": "N3",
-      "node_name": "Natural Gas Preheater (E-002)",
-      "equipment": [
-        {
           "tag": "E-002",
           "type": "heat_exchanger",
           "subtype": "preheater",
-          "description": "Convective preheat coil for natural gas feed in the Primary Reformer waste heat section"
+          "description": "Mixed feed preheater coil located in R-001 convection section",
+          "instrumentation": []
+        },
+        {
+          "tag": "E-001",
+          "type": "heat_exchanger",
+          "subtype": "heater",
+          "description": "Reformed gas heater/heat recovery coil in R-001 convection section",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -165,75 +155,43 @@
         },
         {
           "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "preheated_natural_gas",
-          "fluid": "natural_gas",
-          "state": "gas",
-          "from_node": "N3",
-          "to_node": "N5",
+          "stream_role": "inlet_external",
+          "stream_name": "process_steam",
+          "fluid": "steam",
+          "state": "vapor",
+          "from_node": "external",
+          "to_node": "N3",
           "instrumentation": [
             {
-              "tag": "TT-106",
-              "type": "temperature_transmitter",
-              "associated_parameter": "temperature"
+              "tag": "FCV-101",
+              "type": "flow_control_valve",
+              "associated_parameter": "flow"
             },
             {
-              "tag": "TIC-105",
-              "type": "temperature_indicator_controller",
-              "associated_parameter": "temperature"
+              "tag": "FT-101",
+              "type": "flow_transmitter",
+              "associated_parameter": "flow"
+            },
+            {
+              "tag": "FIC-103",
+              "type": "flow_indicator_controller",
+              "associated_parameter": "flow"
+            },
+            {
+              "tag": "RS-101",
+              "type": "ratio_station",
+              "associated_parameter": "ratio"
             }
           ]
-        }
-      ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
-    },
-    {
-      "node_id": "N4",
-      "node_name": "Process Air Preheater (E-003)",
-      "equipment": [
-        {
-          "tag": "E-003",
-          "type": "heat_exchanger",
-          "subtype": "preheater",
-          "description": "Convective preheat coil for compressed process air in the Primary Reformer waste heat section"
-        }
-      ],
-      "connections": [
-        {
-          "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "preheated_air",
-          "fluid": "air",
-          "state": "gas",
-          "from_node": "N4",
-          "to_node": "N6",
-          "instrumentation": []
-        }
-      ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE"
-    },
-    {
-      "node_id": "N5",
-      "node_name": "Primary Reformer (R-001)",
-      "equipment": [
-        {
-          "tag": "R-001",
-          "type": "reactor",
-          "subtype": "reformer",
-          "description": "Primary reformer radiant section containing catalyst tubes and burners"
-        }
-      ],
-      "connections": [
+        },
         {
           "type": "utility_stream",
           "stream_role": "utility",
-          "stream_name": "fuel_gas",
-          "fluid": "natural_gas",
+          "stream_name": "burner_fuel",
+          "fluid": "fuel_gas",
           "state": "gas",
           "from_node": "external",
-          "to_node": "N5",
+          "to_node": "N3",
           "instrumentation": [
             {
               "tag": "FCV-103",
@@ -246,9 +204,14 @@
               "associated_parameter": "flow"
             },
             {
-              "tag": "FIC-112",
+              "tag": "FIC-113",
               "type": "flow_indicator_controller",
               "associated_parameter": "flow"
+            },
+            {
+              "tag": "RS-113",
+              "type": "ratio_station",
+              "associated_parameter": "ratio"
             }
           ]
         },
@@ -259,7 +222,7 @@
           "fluid": "air",
           "state": "gas",
           "from_node": "external",
-          "to_node": "N5",
+          "to_node": "N3",
           "instrumentation": [
             {
               "tag": "FCV-104",
@@ -275,11 +238,6 @@
               "tag": "FIC-115",
               "type": "flow_indicator_controller",
               "associated_parameter": "flow"
-            },
-            {
-              "tag": "RS-113",
-              "type": "ratio_station",
-              "associated_parameter": "flow"
             }
           ]
         },
@@ -289,29 +247,75 @@
           "stream_name": "primary_reformer_effluent",
           "fluid": "syngas",
           "state": "gas",
-          "from_node": "N5",
-          "to_node": "N6",
-          "instrumentation": []
+          "from_node": "N3",
+          "to_node": "N4",
+          "instrumentation": [
+            {
+              "tag": "TT-106",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-105",
+              "type": "temperature_indicator_controller",
+              "associated_parameter": "temperature"
+            }
+          ]
         }
       ],
-      "equipment_instrumentation": [
-        {
-          "tag": null,
-          "type": "pressure_safety_valve",
-          "associated_parameter": "pressure"
-        }
-      ],
-      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE is used to group the integrated components of the reformer package (catalyst tubes, burners, E-002 feed preheater, and E-001 heat recovery) into a single functional reforming process node."
     },
     {
-      "node_id": "N6",
+      "node_id": "N4",
       "node_name": "Secondary Reformer (R-002)",
       "equipment": [
         {
           "tag": "R-002",
-          "type": "reactor",
-          "subtype": "reformer",
-          "description": "Secondary reformer with combustion zone, catalyst bed, and bottom quench cooling section"
+          "type": "vessel",
+          "subtype": "reactor",
+          "description": "Secondary reformer catalytic reactor with water jacket cooling",
+          "instrumentation": [
+            {
+              "tag": "TT-117",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TT-118",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TT-119",
+              "type": "temperature_transmitter",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "HS-122",
+              "type": "hand_switch",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "TIC-116",
+              "type": "temperature_indicator_controller",
+              "associated_parameter": "temperature"
+            },
+            {
+              "tag": "LT-121",
+              "type": "level_transmitter",
+              "associated_parameter": "level"
+            },
+            {
+              "tag": "LIC-120",
+              "type": "level_indicator_controller",
+              "associated_parameter": "level"
+            },
+            {
+              "tag": "PSV",
+              "type": "pressure_safety_valve",
+              "associated_parameter": "pressure"
+            }
+          ]
         }
       ],
       "connections": [
@@ -322,7 +326,7 @@
           "fluid": "water",
           "state": "liquid",
           "from_node": "external",
-          "to_node": "N6",
+          "to_node": "N4",
           "instrumentation": [
             {
               "tag": "LCV-101",
@@ -337,55 +341,13 @@
           "stream_name": "secondary_reformer_effluent",
           "fluid": "syngas",
           "state": "gas",
-          "from_node": "N6",
-          "to_node": "external",
+          "from_node": "N4",
+          "to_node": "R-003",
           "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [
-        {
-          "tag": null,
-          "type": "pressure_safety_valve",
-          "associated_parameter": "pressure"
-        },
-        {
-          "tag": "LT-121",
-          "type": "level_transmitter",
-          "associated_parameter": "level"
-        },
-        {
-          "tag": "LIC-120",
-          "type": "level_indicator_controller",
-          "associated_parameter": "level"
-        },
-        {
-          "tag": "TIC-116",
-          "type": "temperature_indicator_controller",
-          "associated_parameter": "temperature"
-        },
-        {
-          "tag": "TT-117",
-          "type": "temperature_transmitter",
-          "associated_parameter": "temperature"
-        },
-        {
-          "tag": "TT-118",
-          "type": "temperature_transmitter",
-          "associated_parameter": "temperature"
-        },
-        {
-          "tag": "TT-119",
-          "type": "temperature_transmitter",
-          "associated_parameter": "temperature"
-        },
-        {
-          "tag": "HS-122",
-          "type": "hand_station",
-          "associated_parameter": "manual_control"
-        }
-      ],
-      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE is applied to define the secondary reformer R-002 as its own node due to its unique hazard profile involving catalytic combustion with process air."
     }
   ],
-  "total_nodes": 6
+  "total_nodes": 4
 }
