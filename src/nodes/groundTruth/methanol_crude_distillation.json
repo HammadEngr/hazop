@@ -1,5 +1,4 @@
 {
-  "total_nodes": 7,
   "nodes": [
     {
       "node_id": "N1",
@@ -9,7 +8,8 @@
           "tag": "PD Pump",
           "type": "pump",
           "subtype": "positive_displacement",
-          "description": "crude methanol feed to preheater"
+          "description": "crude methanol feed to preheater",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -34,7 +34,6 @@
           "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [],
       "node_boundary_rationale": "PUMP RULE: positive displacement pump must be its own separate node due to deadhead overpressure hazard."
     },
     {
@@ -45,7 +44,8 @@
           "tag": null,
           "type": "heat_exchanger",
           "subtype": "preheater",
-          "description": "Preheater for crude methanol with steam"
+          "description": "Preheater for crude methanol with steam",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -86,7 +86,6 @@
           ]
         }
       ],
-      "equipment_instrumentation": [],
       "node_boundary_rationale": "HEAT EXCHANGER SHELL/TUBE RULE: steam utility side folded into process-side node as secondary stream; TC controls this exchanger."
     },
     {
@@ -95,9 +94,16 @@
       "equipment": [
         {
           "tag": "still",
-          "type": "distillation_column",
+          "type": "column",
           "subtype": "distillation",
-          "description": "Distillation column separating methanol overhead and tars/heavies bottom"
+          "description": "Distillation column separating methanol overhead and tars/heavies bottom",
+          "instrumentation": [
+            {
+              "tag": "TIC",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            }
+          ]
         }
       ],
       "connections": [
@@ -138,13 +144,6 @@
           "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [
-        {
-          "tag": "TIC",
-          "type": "temperature_indicator_control",
-          "associated_parameter": "temperature"
-        }
-      ],
       "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE: column is a major equipment item; nitrogen purge line is explicitly drawn to it. REBOILER/CONDENSER separated per their rules."
     },
     {
@@ -155,7 +154,8 @@
           "tag": null,
           "type": "heat_exchanger",
           "subtype": "condenser",
-          "description": "Overhead condenser cooling still vapor with water"
+          "description": "Overhead condenser cooling still vapor with water",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -205,20 +205,22 @@
         {
           "tag": "drum",
           "type": "vessel",
-          "description": "condensate_collector"
+          "subtype": "non-pressurized",
+          "description": "condensate_collector",
+          "instrumentation": [
+            {
+              "tag": "LIC",
+              "type": "level_indicator_control",
+              "associated_parameter": "level"
+            }
+          ]
         },
         {
           "tag": null,
           "type": "pump",
           "subtype": "centrifugal",
-          "description": "centrifugal_pump"
-        }
-      ],
-      "equipment_instrumentation": [
-        {
-          "tag": "LIC",
-          "type": "level_indicator_control",
-          "associated_parameter": "level"
+          "description": "centrifugal_pump",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -229,7 +231,8 @@
           "fluid": "methanol",
           "state": "liquid",
           "from_node": "N5",
-          "to_node": "storage"
+          "to_node": "storage",
+          "instrumentation": []
         }
       ],
       "node_boundary_rationale": "CONDENSATE_DRUM: kepp condesnate drum separate from condensor itself. If drum is followed by centrifugal pump, which is usually the case then keep both in single node."
@@ -241,16 +244,12 @@
         {
           "tag": null,
           "type": "column",
-          "description": "steam_heated reboiler/stripper on still bottoms"
+          "subtype": "stripping",
+          "description": "steam_heated reboiler/stripper on still bottoms",
+          "instrumentation": []
         }
       ],
-      "instrumentation": [
-        {
-          "tag": "TIC",
-          "type": "temperature_indicator_control",
-          "associated_parameter": "temperature"
-        }
-      ],
+
       "connections": [
         {
           "type": "utility_stream",
@@ -259,7 +258,8 @@
           "fluid": "steam",
           "state": "gas",
           "from_node": "steam_header",
-          "to_node": "N6"
+          "to_node": "N6",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
@@ -268,7 +268,8 @@
           "fluid": "steam",
           "state": "gas/liquid",
           "from_node": "N6",
-          "to_node": "heat_recovary"
+          "to_node": "heat_recovary",
+          "instrumentation": []
         },
         {
           "type": "process_stream",
@@ -277,7 +278,14 @@
           "fluid": "methanol",
           "state": "gas",
           "from_node": "N6",
-          "to_node": "N3"
+          "to_node": "N3",
+          "instrumentation": [
+            {
+              "tag": "TIC",
+              "type": "temperature_indicator_control",
+              "associated_parameter": "temperature"
+            }
+          ]
         }
       ],
       "node_boundary_rationale": "REBOILER RULE: reboiler is always a separate node from its associated column due to dry-out/burnout hazard; steam utility folded into process node."
@@ -290,16 +298,17 @@
           "tag": "PD Pump",
           "type": "pump",
           "subtype": "positive_displacement",
-          "description": "Positive displacement pump discharging tars from reboiler/stripper bottoms"
+          "description": "Positive displacement pump discharging tars from reboiler/stripper bottoms",
+          "instrumentation": [
+            {
+              "tag": "PIC",
+              "type": "pressure_indicator_control",
+              "associated_parameter": "pressure"
+            }
+          ]
         }
       ],
-      "instrumentation": [
-        {
-          "tag": "PIC",
-          "type": "pressure_indicator_control",
-          "associated_parameter": "pressure"
-        }
-      ],
+
       "connections": [
         {
           "type": "process_stream",
@@ -308,10 +317,12 @@
           "fluid": "tars",
           "state": "liquid",
           "from_node": "N6",
-          "to_node": "tars"
+          "to_node": "tars",
+          "instrumentation": []
         }
       ],
       "node_boundary_rationale": "PUMP RULE: positive displacement pump must be its own separate node due to deadhead overpressure hazard; owns Tars outlet with PIC control."
     }
-  ]
+  ],
+  "total_nodes": 7
 }
