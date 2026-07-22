@@ -2,13 +2,14 @@
   "nodes": [
     {
       "node_id": "N1",
-      "node_name": "Reactor System (R-1)",
+      "node_name": "Polymerization Reactor R-1 System",
       "equipment": [
         {
           "tag": "R-1",
           "type": "vessel",
           "subtype": "reactor",
-          "description": "1000 Gal Polymerization Reactor"
+          "description": "1000 Gal Polymerization Reactor with internal coil/jacket system",
+          "instrumentation": []
         }
       ],
       "connections": [
@@ -20,42 +21,6 @@
           "state": "liquid",
           "from_node": "external",
           "to_node": "N1",
-          "instrumentation": []
-        },
-        {
-          "type": "process_stream",
-          "stream_role": "inlet_external",
-          "stream_name": "nitrogen_inlet",
-          "fluid": "nitrogen",
-          "state": "gas",
-          "from_node": "external",
-          "to_node": "N1",
-          "instrumentation": [
-            {
-              "tag": "PC",
-              "type": "pressure_control",
-              "associated_parameter": "pressure"
-            }
-          ]
-        },
-        {
-          "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "reactor_overhead_vapor",
-          "fluid": "vapor",
-          "state": "vapor",
-          "from_node": "N1",
-          "to_node": "N3",
-          "instrumentation": []
-        },
-        {
-          "type": "process_stream",
-          "stream_role": "outlet_external",
-          "stream_name": "reactor_bottoms_product",
-          "fluid": "polymer",
-          "state": "liquid",
-          "from_node": "N1",
-          "to_node": "external",
           "instrumentation": []
         },
         {
@@ -71,7 +36,7 @@
         {
           "type": "utility_stream",
           "stream_role": "utility",
-          "stream_name": "cooling_water_inlet",
+          "stream_name": "cooling_water_inlet_reactor",
           "fluid": "water",
           "state": "liquid",
           "from_node": "external",
@@ -81,7 +46,7 @@
         {
           "type": "utility_stream",
           "stream_role": "utility",
-          "stream_name": "cooling_water_outlet",
+          "stream_name": "cooling_water_outlet_reactor",
           "fluid": "water",
           "state": "liquid",
           "from_node": "N1",
@@ -91,33 +56,69 @@
         {
           "type": "utility_stream",
           "stream_role": "utility",
-          "stream_name": "steam_trap_discharge",
+          "stream_name": "steam_trap_outlet",
           "fluid": "condensate",
+          "state": "liquid",
+          "from_node": "N1",
+          "to_node": "external",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "inlet_external",
+          "stream_name": "nitrogen_purge_inlet",
+          "fluid": "nitrogen",
+          "state": "gas",
+          "from_node": "external",
+          "to_node": "N1",
+          "instrumentation": [
+            {
+              "tag": "PC",
+              "type": "pressure_control",
+              "associated_parameter": "pressure"
+            }
+          ]
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "reactor_vapor_outlet",
+          "fluid": "vapor",
+          "state": "vapor",
+          "from_node": "N1",
+          "to_node": "N3",
+          "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_external",
+          "stream_name": "reactor_bottoms_product",
+          "fluid": "polymer_product",
           "state": "liquid",
           "from_node": "N1",
           "to_node": "external",
           "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE"
+      "node_boundary_rationale": "GENERAL EQUIPMENT BOUNDARY RULE applied to isolate the primary reactor system and its utilities from the downstream condenser and feed pumps."
     },
     {
       "node_id": "N2",
-      "node_name": "Feed Pump (P-1)",
+      "node_name": "Base Feed Pump P-1",
       "equipment": [
         {
           "tag": "P-1",
           "type": "pump",
           "subtype": "positive_displacement",
-          "description": "Gear Pump"
+          "description": "Gear Pump for Base dosing",
+          "instrumentation": []
         }
       ],
       "connections": [
         {
           "type": "process_stream",
           "stream_role": "inlet_external",
-          "stream_name": "base_inlet",
+          "stream_name": "base_feed_inlet",
           "fluid": "base",
           "state": "liquid",
           "from_node": "external",
@@ -126,44 +127,34 @@
         },
         {
           "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "base_discharge",
+          "stream_role": "outlet_external",
+          "stream_name": "base_feed_discharge",
           "fluid": "base",
           "state": "liquid",
           "from_node": "N2",
-          "to_node": "N1",
+          "to_node": "external",
           "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "PUMP RULE"
+      "node_boundary_rationale": "PUMP RULE strictly requires that any positive displacement pump (Gear Pump P-1) must be its own separate node due to deadhead overpressure safety hazards."
     },
     {
       "node_id": "N3",
-      "node_name": "Condenser (E-1)",
+      "node_name": "Condenser E-1 System",
       "equipment": [
         {
           "tag": "E-1",
           "type": "heat_exchanger",
           "subtype": "condenser",
-          "description": "Condenser"
+          "description": "Shell and tube condenser",
+          "instrumentation": []
         }
       ],
       "connections": [
         {
-          "type": "process_stream",
-          "stream_role": "outlet_internal",
-          "stream_name": "condensate_outlet",
-          "fluid": "condensate",
-          "state": "liquid",
-          "from_node": "N3",
-          "to_node": "N4",
-          "instrumentation": []
-        },
-        {
           "type": "utility_stream",
           "stream_role": "utility",
-          "stream_name": "cooling_water_inlet",
+          "stream_name": "condenser_cooling_water_in",
           "fluid": "water",
           "state": "liquid",
           "from_node": "external",
@@ -173,41 +164,58 @@
         {
           "type": "utility_stream",
           "stream_role": "utility",
-          "stream_name": "cooling_water_outlet",
+          "stream_name": "condenser_cooling_water_out",
           "fluid": "water",
           "state": "liquid",
           "from_node": "N3",
           "to_node": "external",
           "instrumentation": []
+        },
+        {
+          "type": "process_stream",
+          "stream_role": "outlet_internal",
+          "stream_name": "condenser_effluent_outlet",
+          "fluid": "condensate",
+          "state": "liquid",
+          "from_node": "N3",
+          "to_node": "N4",
+          "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [],
-      "node_boundary_rationale": "CONDENSER RULE"
+      "node_boundary_rationale": "CONDENSER RULE dictates that the condenser (E-1) is a separate node from both upstream (R-1) and downstream (D-1) equipment. HEAT EXCHANGER SHELL/TUBE RULE allows folding the utility water streams into this process node."
     },
     {
       "node_id": "N4",
-      "node_name": "Condensate Drum and Pump",
+      "node_name": "Condensate Receiver D-1 & Centrifugal Pump P-2",
       "equipment": [
         {
           "tag": "D-1",
           "type": "vessel",
           "subtype": "reflux_drum",
-          "description": "100 Gal Drum"
+          "description": "100 Gal Condensate / Knockout Drum",
+          "instrumentation": [
+            {
+              "tag": "LC",
+              "type": "level_control",
+              "associated_parameter": "level"
+            }
+          ]
         },
         {
           "tag": "P-2",
           "type": "pump",
           "subtype": "centrifugal",
-          "description": "Centrifugal Pump"
+          "description": "Centrifugal pump draining D-1",
+          "instrumentation": []
         }
       ],
       "connections": [
         {
           "type": "process_stream",
           "stream_role": "outlet_external",
-          "stream_name": "vacuum_vent",
-          "fluid": "gas",
-          "state": "gas",
+          "stream_name": "drum_vacuum_exhaust",
+          "fluid": "vapor",
+          "state": "vapor",
           "from_node": "N4",
           "to_node": "external",
           "instrumentation": []
@@ -215,22 +223,15 @@
         {
           "type": "process_stream",
           "stream_role": "outlet_external",
-          "stream_name": "condensate_discharge",
-          "fluid": "condensate",
+          "stream_name": "distillate_discharge",
+          "fluid": "liquid",
           "state": "liquid",
           "from_node": "N4",
           "to_node": "external",
           "instrumentation": []
         }
       ],
-      "equipment_instrumentation": [
-        {
-          "tag": "LC",
-          "type": "level_indicator_control",
-          "associated_parameter": "level"
-        }
-      ],
-      "node_boundary_rationale": "CONDENSATE DRUM RULE"
+      "node_boundary_rationale": "CONDENSATE DRUM RULE requires the receiver D-1 to be a separate node from the condenser E-1. The same rule, in conjunction with the PUMP RULE, permits merging the centrifugal pump P-2 into the same node as the preceding drum."
     }
   ],
   "total_nodes": 4
