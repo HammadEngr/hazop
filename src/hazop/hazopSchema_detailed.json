@@ -1,0 +1,36 @@
+{
+  "pid_name": "string - e.g. Methanol",
+  "source": "string - ONE OF: reference_manual, rule_engine, llm_end_to_end",
+  "worksheet": [
+    {
+      "entry_id": "string - unique id, e.g. N2-EQ1-MORE-temperature",
+      "node_id": "string - matches node_id in the node JSON",
+      "equipment_ref": {
+        "tag": "string or null",
+        "type": "string",
+        "subtype": "string"
+      },
+      "stream_ref": "string or null - stream_name if this deviation is stream-specific, else null for equipment-level (e.g. level)",
+      "guide_word": "string - e.g. NO, MORE, LESS, REVERSE",
+      "parameter": "string - e.g. flow, temperature, pressure, level, composition",
+      "deviation_description": "string - plain-language statement of the deviation",
+      "causes": ["string - one cause per array entry"],
+      "consequences": ["string - one consequence per array entry"],
+      "propagated_from": "string or null - entry_id of an upstream node this consequence was propagated from, if applicable",
+      "existing_safeguards": [
+        {
+          "description": "string",
+          "instrumentation_ref": "string or null - tag of the instrument in the node JSON that provides this safeguard"
+        }
+      ],
+      "safeguard_gaps": [
+        "string - required safeguard type not found in existing_safeguards"
+      ],
+      "recommendations": [
+        "string - one recommendation per gap, or empty if fully safeguarded"
+      ],
+      "severity": "string - ONE OF: low, medium, high, severe (optional, for scoring/comparison)",
+      "rule_source": "string or null - which named rule/rule-file entry generated this row, for rule_engine source only; null for reference_manual"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "pid_name": "string - e.g. Methanol",
+  "source": "string - ONE OF: reference_manual, rule_engine, llm_end_to_end",
+  "nodes": [
+    {
+      "node_id": "string - matches node_id in the node JSON",
+      "node_name": "string - matches node_name in the node JSON",
+      "equipment_deviations": [
+        {
+          "equipment_ref": "string - tag or type/subtype identifying which equipment item in this node",
+          "deviations": [
+            {
+              "guide_word": "string - e.g. NO, MORE, LESS, REVERSE",
+              "causes": ["string - one cause per array entry"],
+              "consequences": ["string - one consequence per array entry"],
+              "existing_safeguards": ["string - one safeguard per array entry"],
+              "recommendations": [
+                "string - one recommendation per array entry"
+              ],
+              "responsibility": "string - who owns the recommendation"
+            }
+          ]
+        }
+      ],
+      "stream_deviations": [
+        {
+          "stream_name": "string - matches stream_name in the node JSON's connections",
+          "deviations": [
+            {
+              "guide_word": "string - e.g. NO, MORE, LESS, REVERSE",
+              "causes": ["string - one cause per array entry"],
+              "consequences": ["string - one consequence per array entry"],
+              "existing_safeguards": ["string - one safeguard per array entry"],
+              "recommendations": [
+                "string - one recommendation per array entry"
+              ],
+              "responsibility": "string - who owns the recommendation"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
