@@ -20,7 +20,8 @@
           "fluid": "air",
           "state": "gas",
           "from_node": "external",
-          "to_node": "N1"
+          "to_node": "N1",
+          "instrumentation": []
         },
         {
           "type": "utility_stream",
